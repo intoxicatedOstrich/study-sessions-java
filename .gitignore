@@ -1,0 +1,30 @@
+# Java compiled classes
+*.class
+build/
+
+# Database files
+*.db
+*.sqlite
+
+# Dependencies
+sqlite-jdbc-*.jar
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+target/
+out/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
