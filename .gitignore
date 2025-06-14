@@ -28,3 +28,7 @@ out/
 # Temporary files
 *.tmp
 *.temp
+
+# Local helper files
+
+

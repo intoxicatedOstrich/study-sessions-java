@@ -22,9 +22,27 @@ public class StudyTrackerCLI {
         System.out.println("📚 Welcome to Study Session Tracker! 📚");
         System.out.println("=====================================");
         
+        // Check if we have a console available
+        if (System.console() == null && !scanner.hasNext()) {
+            System.out.println("❌ No console available. Please run this application in an interactive terminal.");
+            System.out.println("Try running: java -cp build:sqlite-jdbc-3.44.1.0.jar StudyTrackerApp");
+            return;
+        }
+        
         while (true) {
             showMainMenu();
-            String choice = scanner.nextLine().trim();
+            
+            String choice;
+            try {
+                if (!scanner.hasNextLine()) {
+                    System.out.println("❌ No input available. Exiting...");
+                    break;
+                }
+                choice = scanner.nextLine().trim();
+            } catch (Exception e) {
+                System.out.println("❌ Error reading input: " + e.getMessage());
+                break;
+            }
             
             try {
                 switch (choice) {
@@ -45,8 +63,13 @@ public class StudyTrackerCLI {
             }
             
             System.out.println("\nPress Enter to continue...");
-            scanner.nextLine();
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
         }
+        
+        // Close the scanner when done
+        scanner.close();
     }
     
     private void showMainMenu() {

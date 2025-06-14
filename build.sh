@@ -79,7 +79,7 @@ compile_code() {
     mkdir -p "$BUILD_DIR"
     
     # Compile all Java files
-    javac -cp ".:$SQLITE_JAR" -d "$BUILD_DIR" $SRC_DIR/*.java
+    javac -cp ".:$SQLITE_JAR:slf4j-api-1.7.36.jar:slf4j-nop-1.7.36.jar" -d "$BUILD_DIR" $SRC_DIR/*.java
     
     print_success "Compilation successful!"
 }
@@ -95,8 +95,18 @@ clean() {
 # Run the application
 run() {
     print_status "Starting Study Session Tracker..."
-    echo ""
-    java -cp "$BUILD_DIR:$SQLITE_JAR" StudyTrackerApp
+    
+    # Check if running in interactive mode
+    if [ -t 0 ]; then
+        # Interactive mode - stdin is a terminal
+        echo ""
+        java -cp "$BUILD_DIR:$SQLITE_JAR:slf4j-api-1.7.36.jar:slf4j-nop-1.7.36.jar" StudyTrackerApp
+    else
+        # Non-interactive mode
+        print_warning "Running in non-interactive mode. For full functionality, run directly in terminal."
+        echo ""
+        java -cp "$BUILD_DIR:$SQLITE_JAR:slf4j-api-1.7.36.jar:slf4j-nop-1.7.36.jar" StudyTrackerApp
+    fi
 }
 
 # Run tests (placeholder for future implementation)
