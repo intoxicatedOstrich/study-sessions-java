@@ -31,7 +31,7 @@ A simple study tracker that lets you:
 ./build.sh clean
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 study-sessions-java/
@@ -79,10 +79,10 @@ Study session ended! Duration: 45 minutes
 
 Enter your choice: 7
 
-Current study streak: 3 consecutive days! 🔥
+Current study streak: 3 consecutive days! 
 ```
 
-## 🧪 Testing
+## Testing
 
 The project includes comprehensive unit tests for all classes:
 
@@ -96,7 +96,7 @@ The project includes comprehensive unit tests for all classes:
 # - File storage (save/load with error handling)
 ```
 
-## 💡 Implementation Tips
+## Implementation Tips
 
 ### For `StudySession.java`
 - Use private fields with public getters/setters
