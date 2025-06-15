@@ -1,6 +1,8 @@
 package com.studytracker;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -47,12 +49,11 @@ public class StudyTracker {
 
     public ArrayList<StudySession> getSessionsOnDate(LocalDate date) {
         ArrayList<StudySession> sessionsOnDate = new ArrayList<>();
-        if (sessions.isEmpty()) {
-            System.out.println("No Sessions on this day...");
+        if (date == null || sessions.isEmpty()) {
             return sessionsOnDate;
         }
         for (StudySession s : sessions) {
-            if (s.getStartTime().toLocalDate().equals(date)) {
+            if (s != null && s.getStartTime() != null && s.getStartTime().toLocalDate().equals(date)) {
                 sessionsOnDate.add(s);
             }
         }
@@ -70,20 +71,49 @@ public class StudyTracker {
         return (double) totalMinutes / sessions.size();
     }
 
-    // TODO: CHALLENGE - Implement getStudyStreak()
+    // Implement getStudyStreak()
     // A streak is consecutive days with at least one study session
     // Return the current streak count
-    // Hint: Sort sessions by date first, then check for consecutive days
     public int getStudyStreak() {
-        LocalDate currentDate = LocalDate.now();
-        if (getSessionsOnDate(currentDate).isEmpty()) {
+        if (sessions.isEmpty()) {
             return 0;
         }
-        int streak = 0;
 
-        while (!getSessionsOnDate(currentDate.minusDays(streak)).isEmpty()) {
-            streak++;
+        // Get all unique study dates
+        ArrayList<LocalDate> studyDates = new ArrayList<>();
+        for (StudySession session : sessions) {
+            if (session != null && session.getStartTime() != null) {
+                LocalDate date = session.getStartTime().toLocalDate();
+                if (!studyDates.contains(date)) {
+                    studyDates.add(date);
+                }
+            }
         }
+
+        if (studyDates.isEmpty()) {
+            return 0;
+        }
+
+        // Sort dates in descending order (most recent first)
+        Collections.sort(studyDates, Collections.reverseOrder());
+
+        // Start with the most recent date
+        LocalDate currentDate = studyDates.get(0);
+        int streak = 1;
+
+        // Check consecutive days going backwards
+        for (int i = 1; i < studyDates.size(); i++) {
+            LocalDate nextDate = studyDates.get(i);
+            // If the next date is exactly one day before the current date
+            if (nextDate.equals(currentDate.minusDays(1))) {
+                streak++;
+                currentDate = nextDate;
+            } else {
+                // Gap found, streak is broken
+                break;
+            }
+        }
+
         return streak;
     }
 }
