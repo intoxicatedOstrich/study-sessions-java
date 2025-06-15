@@ -10,7 +10,7 @@ A simple study tracker that lets you:
 - Calculate statistics like total study time and averages
 - Track your study streak (consecutive days)
 
-## 🛠️ Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Java 17 or higher installed
