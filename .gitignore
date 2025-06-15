@@ -28,3 +28,10 @@ out/
 # Temporary files
 *.tmp
 *.temp
+
+# Local helper files
+
+# Tests
+src/test/
+
+

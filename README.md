@@ -1,212 +1,139 @@
-# Study Session Tracker - Java OOP Implementation
+# Study Session Tracker 
 
-A comprehensive Java application demonstrating solid Object-Oriented Programming principles through a practical study session tracking system.
+A Java project for tracking study sessions with a command-line interface.
 
-## 🎯 Project Overview
+##  What You'll Build
 
-This application helps students track their study sessions, set goals, and visualize their progress over time. It's designed as an educational project to demonstrate:
+A simple study tracker that lets you:
+- Track when and what you study
+- Save your sessions to a file
+- Calculate statistics like total study time and averages
+- Track your study streak (consecutive days)
 
-- **Clean Architecture** with layered design
-- **SOLID Principles** in action
-- **Design Patterns** (Repository, Service Layer, Dependency Injection)
-- **Database Integration** with SQLite
-- **Comprehensive Error Handling**
+## 🛠️ Quick Start
 
-## 🏗️ Architecture
+### Prerequisites
+- Java 17 or higher installed
+- Basic command line knowledge
 
-```
-StudyTrackerApp (Main)
-    ↓
-StudyTrackerCLI (Presentation Layer)
-    ↓
-StudySessionService (Business Logic Layer)
-    ↓
-StudySessionRepository (Data Access Layer)
-    ↓
-SQLite Database
-```
-
-### Key Components
-
-- **Models**: `StudySession`, `StudyGoal`, `StudyProgressReport`
-- **Repository**: `StudySessionRepository` (interface) & `SQLiteStudySessionRepository` (implementation)
-- **Service**: `StudySessionService` (business logic and validation)
-- **CLI**: `StudyTrackerCLI` (user interface)
-- **Main**: `StudyTrackerApp` (application entry point)
-
-## 🚀 Features
-
-- ✅ Create, read, update, and delete study sessions
-- ✅ Set daily/weekly study goals
-- ✅ Generate progress reports with ASCII charts
-- ✅ Tag sessions by subject and difficulty
-- ✅ Search sessions by subject
-- ✅ Calculate study streaks
-- ✅ View statistics by subject
-- ✅ Comprehensive error handling
-
-## 📋 Requirements
-
-- **Java 17+** (for text blocks and modern language features)
-- **SQLite JDBC Driver**: `sqlite-jdbc-3.44.1.0.jar`
-
-## 🔧 Setup and Installation
-
-### 1. Download Dependencies
-
-Download the SQLite JDBC driver:
+### Build and Run
 ```bash
-curl -O https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.44.1.0/sqlite-jdbc-3.44.1.0.jar
+# Build the project
+./build.sh
+
+# Run the application
+./build.sh run
+
+# Run tests
+./build.sh test
+
+# Clean build files
+./build.sh clean
 ```
 
-### 2. Compile the Project
+## 📁 Project Structure
+
+```
+study-sessions-java/
+├── src/
+│   ├── main/java/com/studytracker/
+│   │   ├── StudySession.java       # Core data model
+│   │   ├── StudyTracker.java       # Main logic class
+│   │   ├── SimpleFileStorage.java  # File save/load
+│   │   └── StudyTrackerCLI.java    # Command-line interface
+│   └── test/java/com/studytracker/
+│       ├── StudySessionTest.java
+│       ├── StudyTrackerTest.java
+│       └── SimpleFileStorageTest.java
+├── lib/                            # External libraries (JUnit)
+├── build.sh                        # Build script
+└── README.md                       # This file
+```
+
+##  Sample Usage
+
+```
+=== Study Session Tracker ===
+
+1. Start new study session
+2. End current session
+3. View all sessions
+4. View sessions by subject
+5. Calculate total study time
+6. Calculate average session length
+7. View study streak
+8. Save sessions to file
+9. Load sessions from file
+0. Exit
+
+Enter your choice: 1
+
+Enter subject: Math
+Study session started for Math at 2024-01-15T14:30
+
+Enter your choice: 2
+
+Enter difficulty (1-5): 4
+Enter notes (optional): Chapter 5 review
+Study session ended! Duration: 45 minutes
+
+Enter your choice: 7
+
+Current study streak: 3 consecutive days! 🔥
+```
+
+## 🧪 Testing
+
+The project includes comprehensive unit tests for all classes:
 
 ```bash
-# Compile all Java files
-javac -cp ".:sqlite-jdbc-3.44.1.0.jar" src/*.java
+# Run all tests
+./build.sh test
 
-# Move compiled classes to current directory (optional)
-mv src/*.class .
+# Tests cover:
+# - StudySession creation and validation
+# - StudyTracker operations (add, search, statistics)
+# - File storage (save/load with error handling)
 ```
 
-### 3. Run the Application
+## 💡 Implementation Tips
 
-```bash
-java -cp ".:sqlite-jdbc-3.44.1.0.jar" StudyTrackerApp
-```
+### For `StudySession.java`
+- Use private fields with public getters/setters
+- Validate that end time is after start time
+- Calculate duration in minutes
+- Override `toString()` for better display
 
-## 💡 Key OOP Concepts Demonstrated
+### For `StudyTracker.java`
+- Use `ArrayList<StudySession>` to store sessions
+- Implement methods one at a time and test each
+- Think about edge cases (empty list, null values)
 
-### Encapsulation
-- All model fields are private with controlled access through getters/setters
-- Validation in setters prevents invalid state
-- Methods like `getTags()` return copies to prevent external modification
+### For `SimpleFileStorage.java`
+- Handle file not found gracefully
+- Use try-with-resources for automatic file closing
+- Test with malformed data files
 
-### Abstraction
-- `StudySessionRepository` interface hides implementation details
-- Service layer abstracts complex business operations
-- Users interact with simple, meaningful methods
+## Common Issues and Solutions
 
-### Polymorphism
-- Repository interface allows swapping implementations (SQLite ↔ PostgreSQL)
-- Different difficulty levels handled through enums
-- Future extensibility built in
+### "Cannot find symbol" errors
+- Make sure all imports are correct
+- Check that class names match file names
+- Verify method signatures match between classes
 
-### Composition
-- Service class "has-a" repository (dependency injection)
-- CLI "has-a" service
-- Objects composed of other objects rather than inheritance
+### File not found when loading
+- The program creates files in the current directory
+- Use absolute paths if needed
+- Check file permissions
 
-## 🎯 Design Patterns Used
+### Tests failing
+- Read error messages carefully
+- The tests expect specific behavior
+- Check edge cases (null, empty lists, invalid dates)
 
-### Repository Pattern
-`StudySessionRepository` separates data access from business logic. This means you could swap SQLite for PostgreSQL without changing any other code.
-
-### Service Layer Pattern
-`StudySessionService` contains all business rules. Want to change what makes a valid study session? Change it in one place.
-
-### Dependency Injection
-The main class wires everything together. This makes testing easier and reduces coupling between classes.
-
-## 📊 Sample Usage
-
-```
-📚 Welcome to Study Session Tracker! 📚
-=====================================
-
-========================================
-📋 MAIN MENU
-========================================
-1. 📝 Create New Study Session
-2. 📖 View All Sessions
-3. 🔍 Search Sessions by Subject
-4. 📊 Generate Progress Report
-5. 📈 View Statistics
-6. 🗑️  Delete Session
-7. 🚪 Exit
-========================================
-Choose an option (1-7): 1
-
-📝 CREATE NEW STUDY SESSION
-------------------------------
-Subject: Java Programming
-Duration (minutes): 90
-Difficulty Level:
-1. Easy
-2. Medium
-3. Hard
-4. Very Hard
-Choose difficulty (1-4): 3
-✅ Study session created successfully!
-📋 StudySession{id=1, subject='Java Programming', duration=90 mins, difficulty=HARD, time=2024-06-14 15:30}
-```
-
-## 🔍 Code Structure Explanation
-
-### Model Layer (`StudySession.java`, `StudyGoal.java`)
-- **Purpose**: Represents the core data and business entities
-- **Key Features**: Encapsulation, validation, business logic methods
-- **Example**: `StudySession.getDurationHours()` converts minutes to hours
-
-### Repository Layer (`StudySessionRepository.java`, `SQLiteStudySessionRepository.java`)
-- **Purpose**: Handles all data persistence operations
-- **Key Features**: Interface segregation, SQL operations, data mapping
-- **Example**: `findBySubject()` enables subject-based searches
-
-### Service Layer (`StudySessionService.java`)
-- **Purpose**: Contains business logic and validation rules
-- **Key Features**: Business rule enforcement, complex operations
-- **Example**: Enforces minimum 5-minute and maximum 8-hour session limits
-
-### Presentation Layer (`StudyTrackerCLI.java`)
-- **Purpose**: Handles user interaction and input/output
-- **Key Features**: Menu-driven interface, input validation, error handling
-- **Example**: Provides user-friendly error messages and confirmation dialogs
-
-## 🧪 Testing Strategy
-
-The layered architecture makes testing straightforward:
-
-1. **Unit Tests**: Test individual classes in isolation
-2. **Integration Tests**: Test repository + database interactions
-3. **Service Tests**: Test business logic with mocked repositories
-4. **End-to-End Tests**: Test complete user workflows
-
-## 🔧 Extension Ideas
-
-- **Add Goals Management**: Implement goal CRUD operations
-- **Export Data**: Add CSV/JSON export functionality
-- **Study Groups**: Add collaborative study features
-- **Notifications**: Implement study reminders
-- **Web Interface**: Replace CLI with web UI
-- **Analytics**: Add more sophisticated progress tracking
-
-## 📚 Learning Outcomes
-
-After working with this code, you'll understand:
-
-- How to structure larger Java applications
-- When and why to use interfaces vs. concrete classes
-- How dependency injection reduces coupling
-- Why separation of concerns matters
-- How to design for testability and maintainability
-
-## 🤝 Contributing
-
-This is an educational project! Feel free to:
-- Add new features
-- Improve the existing code
-- Add more comprehensive error handling
-- Create unit tests
-- Optimize database queries
-
-## 📖 References
-
-- **Clean Code** by Robert C. Martin
-- **Design Patterns** by Gang of Four
-- **Effective Java** by Joshua Bloch
-- **Spring Framework Documentation** (for real-world dependency injection)
-
----
-
-*Remember: The goal isn't just to make it work, but to understand WHY it's structured this way. Each design decision makes the code more maintainable, testable, and extensible.*
+## Ways to extend this project:
+- Adding a GUI with JavaFX or Swing
+- Using a database instead of files (SQLite, H2)
+- Creating a REST API for the tracker
+- Building a web interface
+- Adding data visualization charts
